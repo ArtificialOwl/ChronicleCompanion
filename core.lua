@@ -41,8 +41,6 @@ Chronicle.version = "0.1"
 ---@field last_seen number timestamp of last seen
 ---@field canCooperate boolean whether unit can cooperate
 ---@field logged number timestamp of last logged
----@field buffs string serialized buff data
----@field debuffs string serialized debuff data
 
 -- Initialize the database
 function Chronicle:InitDB()
@@ -94,8 +92,9 @@ function Chronicle:UpdateUnit(guid)
 	unitData.last_seen = time()
 	unitData.canCooperate = UnitCanCooperate("player", guid)
 	unitData.logged = time()
-	unitData.buffs = unitAuras(guid, UnitBuff)
-	unitData.debuffs = unitAuras(guid, UnitDebuff)
+	-- No need to cache this info.
+	local buffs = unitAuras(guid, UnitBuff)
+	local debuffs = unitAuras(guid, UnitDebuff)
 
 
 	-- Check for owner unit
@@ -113,8 +112,8 @@ function Chronicle:UpdateUnit(guid)
 		unitData.name,
 		unitData.canCooperate and "1" or "0",
 		unitData.owner or "",
-		unitData.buffs or "",
-		unitData.debuffs or ""
+		buffs or "",
+		debuffs or ""
 	)
 	CombatLogAdd(logLine, 1)
 	self:DebugPrint(logLine)

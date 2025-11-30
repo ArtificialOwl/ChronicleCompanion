@@ -187,6 +187,28 @@ function Chronicle:RAW_COMBATLOG()
 	end
 end
 
+function Chronicle:OnPlayerEnteringWorld()
+	if not Chronicle:IsEnteringInstance() then
+		return
+	end
+
+	-- TODO: For non raids, probably do not do this.
+	if not IsInInstance() then
+		return
+	end
+	
+
+	StaticPopupDialogs["ENABLE_COMBAT_LOGGING"] = {
+		text = "Would you like to enable Combat Logging?",
+		button1 = "Yes",
+		button2 = "No",
+		OnAccept = ChronicleEnableCombatLogging,
+		timeout = 30,
+		whileDead = true,
+		hideOnEscape = true
+	}
+end
+
 function Chronicle:OnEvent(event, ...)
 	if event == "ADDON_LOADED" then
 		local addonName = arg1
@@ -194,10 +216,8 @@ function Chronicle:OnEvent(event, ...)
 			self:InitDB()
 			self:Print("Chronicle v" .. self.version .. " loaded. Type /chronicle help for commands.")
 		end
-	elseif event == "PLAYER_LOGIN" then
-		self:OnPlayerLogin()
-	elseif event == "PLAYER_LOGOUT" then
-		self:OnPlayerLogout()
+	elseif event == "PLAYER_ENTERING_WORLD" then
+		self:OnPlayerEnteringWorld()
 	elseif event == "RAW_COMBATLOG" then
 		self:RAW_COMBATLOG()
 	end
@@ -234,6 +254,25 @@ function Chronicle:FormatTime(seconds)
 	else
 		return string.format("%.1fd", seconds / 86400)
 	end
+end
+
+function Chronicle:IsEnteringInstance()
+	local x, y = GetPlayerMapPosition("player")
+	if x == nil or y == nil then
+		return true
+	end
+	return x == y and y == 0
+end
+
+
+function ChronicleEnableCombatLogging()
+	LoggingCombat(1)
+	DEFAULT_CHAT_FRAME:AddMessage("Combat Logging Enabled")
+end
+
+function ChronicleEDisableCombatLogging()
+	LoggingCombat(0)
+	DEFAULT_CHAT_FRAME:AddMessage("Combat Logging Disabled")
 end
 
 -- =============================================================================

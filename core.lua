@@ -33,6 +33,7 @@ Chronicle.version = "0.1"
 
 ---@class ChronicleDB
 ---@field units UnitsTable
+---@field logging boolean
 
 ---@class UnitsTable
 ---@field id string unit GUID
@@ -44,11 +45,13 @@ Chronicle.version = "0.1"
 
 -- Initialize the database
 function Chronicle:InitDB()
+	local logging = LoggingCombat() == 1
 	-- Create default structure if DB doesn't exist or not up to date
 	if not ChronicleDB  or ChronicleDB.version ~= self.version then
 		ChronicleDB = {
 			version = self.version,
-			units = {}  -- Stores GUID -> unit data
+			units = {},  -- Stores GUID -> unit data
+			logging = logging
 		}
 	end
 	
@@ -58,6 +61,7 @@ function Chronicle:InitDB()
 	end
 	
 	self.db = ChronicleDB
+	self.logging = logging
 end
 
 ---@param guid string
@@ -118,6 +122,11 @@ function Chronicle:UpdateUnit(guid)
 	-- self:DebugPrint(logLine)
 end
 
+function Chronicle:Reset()
+	self.db.units = {}
+	self:Print("Chronicle database reset.")
+end
+
 -- Clean up old units that haven't been seen in a while
 function Chronicle:CleanupOldUnits(timeoutSeconds)
 	local currentTime = time()
@@ -175,6 +184,17 @@ local function FindHexGUIDs(str)
 end
 
 function Chronicle:RAW_COMBATLOG()
+	local logging = LoggingCombat()
+	if logging ~= 0 then
+		return
+	end
+
+	-- Reset the db on first logging event
+	if not self.logging then
+		self.logging = true
+		self:Reset()
+	end
+
 	local event_name = arg1
 	local log = arg2
 	if not arg2 then return end
@@ -195,6 +215,7 @@ function Chronicle:RAW_COMBATLOG()
 end
 
 function Chronicle:OnPlayerEnteringWorld()
+	self:Reset()
 	if not Chronicle:IsEnteringInstance() then
 		return
 	end
@@ -204,7 +225,6 @@ function Chronicle:OnPlayerEnteringWorld()
 		return
 	end
 	
-
 	StaticPopupDialogs["ENABLE_COMBAT_LOGGING"] = {
 		text = "Would you like to enable Combat Logging?",
 		button1 = "Yes",

@@ -185,7 +185,12 @@ end
 
 function Chronicle:RAW_COMBATLOG()
 	local logging = LoggingCombat()
-	if logging ~= 0 then
+
+	if logging ~= 1 then
+		if self.logging then
+			self.logging = false
+			self:Reset()
+		end
 		return
 	end
 

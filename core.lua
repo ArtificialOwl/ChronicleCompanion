@@ -223,6 +223,7 @@ function Chronicle:CreateEventFrame()
 	self.eventFrame:RegisterEvent("ADDON_LOADED")
 	self.eventFrame:RegisterEvent("RAW_COMBATLOG")
 	self.eventFrame:RegisterEvent("PLAYER_LOGIN")
+	self.eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 	-- self.eventFrame:RegisterEvent("PLAYER_LOGIN")
 	-- self.eventFrame:RegisterEvent("PLAYER_LOGOUT")
 	

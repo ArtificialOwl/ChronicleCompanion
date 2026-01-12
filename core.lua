@@ -375,7 +375,7 @@ function ChronicleEnableCombatLogging()
 	DEFAULT_CHAT_FRAME:AddMessage("Combat Logging Enabled")
 end
 
-function ChronicleEDisableCombatLogging()
+function ChronicleDisableCombatLogging()
 	LoggingCombat(0)
 	DEFAULT_CHAT_FRAME:AddMessage("Combat Logging Disabled")
 end

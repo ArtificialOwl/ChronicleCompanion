@@ -12,3 +12,7 @@ Armory Extraction
 - Gear
 - Playtime
 - Quests completed
+
+Before publish:
+- Remove debug.lua, or fix it
+- Fix "Do you want to combat log?" popup

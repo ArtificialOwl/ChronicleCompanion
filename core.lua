@@ -8,10 +8,10 @@
 
 ---@class Chronicle
 ---@field version string
----@field db ChronicleDB
----@field superWoW boolean
----@field superWoWLogger boolean
----@field challenges string comma-separated list of challenges
+---@field db ChronicleDB ephemeral database
+---@field superWoW boolean if superWoW is present
+---@field superWoWLogger boolean if superWoWLogger is present
+---@field challenges string comma-separated list of challenges of the player
 Chronicle = {}
 Chronicle.version = "0.1"
 
@@ -38,6 +38,7 @@ function Chronicle:Init()
 	self:InitDB()
 end
 
+--- Loads player challenges
 function Chronicle:InitChallenges()
 	self.challenges = self:PlayerChallenges()
 	if self.challenges ~= "" then
@@ -80,6 +81,7 @@ function Chronicle:InitDB()
 end
 
 -- Map spell name -> key you want in the return table
+-- TODO: Switch to spell ids, as names can be localized
 local CHALLENGE_SPELLS = {
 	["Level One Lunatic"] = "lunatic",
 	["Hardcore"] = "hardcore",
@@ -121,6 +123,7 @@ end
 
 
 
+--- Returns a string representation of the unit's buffs in csv format
 ---@param guid string
 ---@return string
 function Chronicle:unitBuffs(guid)
@@ -138,7 +141,7 @@ function Chronicle:unitBuffs(guid)
 	return auras
 end
 
--- Add or update a unit in the database
+--- Add or update a unit in the database
 function Chronicle:UpdateUnit(guid)
 	if not guid then return end
 	local unitData = self.db.units[guid] or {}
@@ -188,7 +191,7 @@ function Chronicle:Reset()
 	self:Print("Chronicle database reset.")
 end
 
--- Clean up old units that haven't been seen in a while
+--- Clean up old units that haven't been seen in a while
 function Chronicle:CleanupOldUnits(timeoutSeconds)
 	local currentTime = time()
 	timeoutSeconds = timeoutSeconds or 300  -- Default 5 minutes

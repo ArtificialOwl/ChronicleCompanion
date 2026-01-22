@@ -26,15 +26,16 @@ function Chronicle:Init()
 end
 
 function Chronicle:InitDeps()
+	self.superWoW = false
+	self.superWoWLogger = false
 	-- Check for SuperWoW requirement
-	if not SetAutoloot then
-		self.superWoW = false
+	if SetAutoloot then
+		self.superWoW = true
 	end
 
-	if not log_combatant_info then
-		self.superWoWLogger = false
+	if log_combatant_info then
+		self.superWoWLogger = true
 	end
-
 
 	if not self.superWoW or not self.superWoWLogger then
 		Chronicle:Print("Warning: SuperWoW or SuperWoW Logger not detected. Some features may be disabled.")
@@ -160,9 +161,11 @@ function Chronicle:OnPlayerEnteringWorld()
 	local logging = LoggingCombat() == 1
 
 	local isInstance, _ = IsInInstance()
-	local isEnteringInstance = Chronicle:IsEnteringInstance() and isInstance == 1
+	-- Just use the in instance check in case they /reload
+	local isEnteringInstance = isInstance == 1 -- and Chronicle:IsEnteringInstance()
 
 	if isEnteringInstance then
+		if not logging then
 			StaticPopupDialogs["ENABLE_COMBAT_LOGGING"] = {
 				text = "Combat logging is disabled and you have entered an instance, do you want to enable it?",
 				button1 = "Enable Combat Logs",
@@ -173,6 +176,7 @@ function Chronicle:OnPlayerEnteringWorld()
 				hideOnEscape = true
 			}
 			StaticPopup_Show("ENABLE_COMBAT_LOGGING")
+		end
 	else 
 		if logging then
 			StaticPopupDialogs["ENABLE_COMBAT_LOGGING"] = {
@@ -220,16 +224,6 @@ function Chronicle:OnEvent(event, ...)
 	end
 end
 
-function Chronicle:ADDON_LOADED()
-	local addonName = arg1
-	if addonName ~= "ChronicleLogger" then
-		return
-	end
-
-	self:Init()
-	self:Print("Chronicle v" .. self.version .. " loaded. Type /chronicle help for commands.")
-end
-
 
 -- sub to RAW_COMBATLOG
 
@@ -266,6 +260,8 @@ end
 function ChronicleEnableCombatLogging()
 	LoggingCombat(1)
 	DEFAULT_CHAT_FRAME:AddMessage("Combat Logging Enabled")
+	-- Always want this at the top of the logs
+	Chronicle:LogPlayerContext()
 end
 
 function ChronicleDisableCombatLogging()
@@ -289,6 +285,7 @@ end
 function Chronicle:LogPlayerContext() 
 	ChronicleUnits:UpdateUnit("player", true)
 	Chronicle:LogRealm(true)
+	Chronicle:LogPlayerPosition()
 end
 
 local lastRealmLogTime = 0

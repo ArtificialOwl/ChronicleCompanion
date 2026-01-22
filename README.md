@@ -34,37 +34,6 @@ ChronicleCompanion works automatically when combat logging is enabled. It interc
 
 You can also use `/chron` as a shorthand.
 
-## Logged Data Format
-
-The addon appends `UNIT_INFO` lines to your combat log with the following format:
-
-```
-UNIT_INFO: <timestamp>&<guid>&<is_player>&<name>&<can_cooperate>&<owner_guid>&<buffs>&<level>&<challenges>
-```
-
-| Field           | Description                                                         |
-| --------------- | ------------------------------------------------------------------- |
-| `timestamp`     | Date/time in `DD.MM.YY HH:MM:SS` format                             |
-| `guid`          | Unit's unique identifier (e.g., `0x0000000000001234`)               |
-| `is_player`     | `1` if this is the player, `0` otherwise                            |
-| `name`          | Unit name                                                           |
-| `can_cooperate` | `1` if friendly, `0` if hostile                                     |
-| `owner_guid`    | Owner's GUID for pets/minions, empty otherwise                      |
-| `buffs`         | Comma-separated buff IDs with stack counts (e.g., `,1234=2,5678=1`) |
-| `level`         | Unit level                                                          |
-| `challenges`    | Player challenge modes (comma-separated) or `na`                    |
-
-## Supported Challenge Modes
-
-- Hardcore
-- Level One Lunatic
-- Exhaustion
-- Slow & Steady
-- Boaring Adventure
-- Path of the Brewmaster
-- Traveling Craftmaster
-- Vagrant's Endeavor
-
 ## Localization
 
 Currently supports English (`enUS`) for challenge mode detection. Contributions for other locales are welcome! See `units.lua` for the `CHALLENGE_SPELLS` table.

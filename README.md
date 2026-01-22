@@ -8,7 +8,6 @@ Upload your enriched combat logs at [chronicleclassic.com](https://chronicleclas
 
 - **Extended Unit Tracking** — Automatically logs unit GUIDs, names, levels, owners (for pets/minions), and buff information to your combat log
 - **Challenge Mode Detection** — Detects and logs player challenge modes (Hardcore, Level One Lunatic, Exhaustion, etc.)
-- **Combat Log Reminder** — When entering/exiting instances, the addon will remind you to turn on/off combat logging.
 
 ## Requirements
 

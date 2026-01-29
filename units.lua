@@ -35,7 +35,7 @@ end
 ---@return string
 function ChronicleUnits:unitBuffs(guid)
 	local auras = ""
-	local prefix = ","
+	local prefix = ""
 	for i=1, 31 do
 			local buffTexture, buffApplications, buffID = UnitBuff(guid, i)
 			if not buffTexture then

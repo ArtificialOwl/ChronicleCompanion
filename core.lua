@@ -290,6 +290,7 @@ function Chronicle:LogPlayerContext()
 	ChronicleUnits:UpdateUnit("player", true)
 	Chronicle:LogRealm(true)
 	Chronicle:LogPlayerPosition()
+	Chronicle:LogTimings()
 end
 
 local lastRealmLogTime = 0
@@ -336,6 +337,15 @@ function Chronicle:LogPlayerPosition()
 		guid,
 		x,
 		y
+	)
+	CombatLogAdd(logLine, 1)
+end
+
+-- Helpful when parsing to get the right timezone context
+function Chronicle:LogTimings()
+	local logLine = string.format("CLOCK_INFO: %s&%s",
+		date("%d.%m.%y %H:%M:%S"), -- Local time
+		date("!%d.%m.%y %H:%M:%S") -- UTC time
 	)
 	CombatLogAdd(logLine, 1)
 end

@@ -144,11 +144,10 @@ function ChronicleUnits:UpdateUnit(id, force)
 	if ok then
 		unitData.owner = ownerGuid
 	end
-	
 
 	self.units[guid] = unitData
 
-	local logLine = string.format("UNIT_INFO: %s&%s&%s&%s&%s&%s&%s&%s&%s",
+	local logLine = string.format("UNIT_INFO: %s&%s&%s&%s&%s&%s&%s&%s&%s&%s",
 		date("%d.%m.%y %H:%M:%S"),
 		unitData.id,
 		UnitIsUnit(unitData.id, "player") and "1" or "0",
@@ -158,7 +157,8 @@ function ChronicleUnits:UpdateUnit(id, force)
 		buffs or "",
 		unitData.level or "0",
 		-- Dump the player challenges if it is the player
-		UnitIsUnit(unitData.id, "player") and self.challenges or "na"
+		UnitIsUnit(unitData.id, "player") and self.challenges or "na",
+		UnitHealthMax(unitData.id)
 	)
 	CombatLogAdd(logLine, 1)
 	ChronicleUnits:CleanupOldUnits()

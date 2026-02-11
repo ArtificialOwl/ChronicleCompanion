@@ -1,4 +1,4 @@
-## Interface: 10900
+## Interface: 11200
 ## Title: ChronicleCompanion
 ## Notes: Use with the website Chronicle
 ## Version: 0.2

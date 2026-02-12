@@ -54,6 +54,9 @@ function Chronicle:HandleSlashCommand(msg)
 	elseif cmd == "version" or cmd == "ver" then
 		self:Print("Chronicle version " .. self.version)
 		
+	elseif cmd == "config" or cmd == "options" then
+		self:OpenOptionsPanel()
+		
 	else
 		self:Print("Unknown command. Type '/chronicle help' for available commands.")
 	end
@@ -65,5 +68,6 @@ function Chronicle:ShowHelp()
 	self:Print("/chronicle cleanup [seconds] - Remove units not seen in X seconds (default 300)")
 	self:Print("/chronicle clear - Clear entire database")
 	self:Print("/chronicle version - Show addon version")
+	self:Print("/chronicle config - Open options panel")
 	self:Print("/chronicle help - Show this help")
 end

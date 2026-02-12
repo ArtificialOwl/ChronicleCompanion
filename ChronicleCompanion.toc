@@ -4,12 +4,13 @@
 ## Version: 0.2
 ## DefaultState: enabled
 ## Author: Emyrk
-## SavedVariablesPerCharacter:
+## SavedVariablesPerCharacter: ChronicleCompanionDB
 ## Dependencies: SuperWowCombatLogger
 
 util.lua
 units.lua
 core.lua
+config.lua
 debug.lua
 slash.lua
 init.lua

@@ -21,6 +21,8 @@ function Chronicle:Init()
 	end
 	inilialized = true
 	self.logging = LoggingCombat()
+	self:InitializeConfig()
+	self:CreateOptionsPanel()
 	self:InitDeps()
 	InitChronicleUnits()
 end

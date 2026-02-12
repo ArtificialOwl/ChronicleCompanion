@@ -26,7 +26,7 @@ function InitChronicleUnits()
 
   ChronicleUnits.challenges = ChronicleUnits:PlayerChallenges()
 	if ChronicleUnits.challenges ~= "" then
-		ChronicleUnits:Print("Player challenges: " .. ChronicleUnits.challenges)
+		Chronicle:Print("Player challenges: " .. ChronicleUnits.challenges)
 	end
 end
 

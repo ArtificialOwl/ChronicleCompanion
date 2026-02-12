@@ -1,3 +1,5 @@
+-- Compatibility issue with gmatch sometimes being nil?
+local gmatch = string.gmatch or string.gfind
 -- =============================================================================
 -- Slash Commands
 -- =============================================================================
@@ -17,7 +19,7 @@ local function split(str, delim)
     if str == nil or str == "" then
         return result
     end
-    for part in string.gmatch(str, "([^" .. delim .. "]+)") do
+    for part in gmatch(str, "([^" .. delim .. "]+)") do
         table.insert(result, part)
     end
     return result
@@ -54,6 +56,9 @@ function Chronicle:HandleSlashCommand(msg)
 	elseif cmd == "version" or cmd == "ver" then
 		self:Print("Chronicle version " .. self.version)
 		
+	elseif cmd == "config" or cmd == "options" then
+		self:OpenOptionsPanel()
+		
 	else
 		self:Print("Unknown command. Type '/chronicle help' for available commands.")
 	end
@@ -65,5 +70,6 @@ function Chronicle:ShowHelp()
 	self:Print("/chronicle cleanup [seconds] - Remove units not seen in X seconds (default 300)")
 	self:Print("/chronicle clear - Clear entire database")
 	self:Print("/chronicle version - Show addon version")
+	self:Print("/chronicle config - Open options panel")
 	self:Print("/chronicle help - Show this help")
 end

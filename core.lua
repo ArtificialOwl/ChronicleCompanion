@@ -126,7 +126,7 @@ local function FindHexGUIDs(str)
     
     -- pattern:
     -- 0x followed by exactly 16 hex chars
-    for match in string.gmatch(str, "0x(%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x)") do
+    for match in cgmatch(str, "0x(%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x)") do
         table.insert(results, "0x" .. match)
     end
 
@@ -163,7 +163,7 @@ function Chronicle:RAW_COMBATLOG()
 		ChronicleUnits:UpdateUnit(guids[i])
 	end
 
-	local hasYou = string.match(log, " [yY]ou(['.\\sr])")
+	local hasYou = cmatch(log, " [yY]ou(['.\\sr])")
 	if hasYou then
 		local ok, playerGuid = UnitExists("player")
 		if ok then

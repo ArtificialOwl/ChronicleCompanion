@@ -17,7 +17,7 @@ local function split(str, delim)
     if str == nil or str == "" then
         return result
     end
-    for part in string.gmatch(str, "([^" .. delim .. "]+)") do
+    for part in cgmatch(str, "([^" .. delim .. "]+)") do
         table.insert(result, part)
     end
     return result

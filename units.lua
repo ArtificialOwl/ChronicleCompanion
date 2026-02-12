@@ -168,7 +168,7 @@ end
 
 function ChronicleUnits:Reset()
 	self.units = {}
-	Chronicle:Print("Chronicle units database reset.")
+	Chronicle:DebugPrint("Chronicle units database reset.")
 end
 
 --- Clean up old units that haven't been seen in a while

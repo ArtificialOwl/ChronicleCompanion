@@ -2,6 +2,8 @@
 -- Chronicle Addon for Turtle WoW
 -- =============================================================================
 
+local gmatch = string.gmatch or string.gfind
+
 -- =============================================================================
 -- Chronicle Namespace
 -- =============================================================================
@@ -117,7 +119,7 @@ local function FindHexGUIDs(str)
     
     -- pattern:
     -- 0x followed by exactly 16 hex chars
-    for match in string.gmatch(str, "0x(%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x)") do
+    for match in gmatch(str, "0x(%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x%x)") do
         table.insert(results, "0x" .. match)
     end
 

@@ -1,3 +1,6 @@
+-- Compatibility issue with gmatch sometimes being nil?
+local gmatch = string.gmatch or string.gfind
+
 -- Compare version strings like "1.5.2" > "1.5"
 ---@param v1 string
 ---@param v2 string
@@ -6,7 +9,7 @@ function ChronicleCompareVersion(v1, v2)
     -- Returns: 1 if v1 > v2, -1 if v1 < v2, 0 if equal
     local function split(str)
         local parts = {}
-        for num in string.gmatch(str, "(%d+)") do
+        for num in gmatch(str, "(%d+)") do
             table.insert(parts, tonumber(num))
         end
         return parts

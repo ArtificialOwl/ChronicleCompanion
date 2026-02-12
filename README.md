@@ -27,9 +27,10 @@ ChronicleCompanion works automatically when combat logging is enabled. It interc
 
 ### Slash Commands
 
-| Command           | Description                 |
-| ----------------- | --------------------------- |
-| `/chronicle help` | Show all available commands |
+| Command             | Description                 |
+| ------------------- | --------------------------- |
+| `/chronicle help`   | Show all available commands |
+| `/chronicle config` | Open the options panel      |
 
 You can also use `/chron` as a shorthand.
 

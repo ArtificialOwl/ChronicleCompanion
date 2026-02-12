@@ -15,12 +15,12 @@ local gmatch = string.gmatch or string.gfind
 ---@field logging boolean if combat logging is currently enabled
 Chronicle = {}
 
-local inilialized = false
+local initialized = false
 function Chronicle:Init()
-	if inilialized then
+	if initialized then
 		return
 	end
-	inilialized = true
+	initialized = true
 	self.logging = LoggingCombat()
 	self:InitializeConfig()
 	self:CreateOptionsPanel()

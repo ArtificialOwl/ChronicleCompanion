@@ -4,7 +4,7 @@
 ## Version: 0.2
 ## DefaultState: enabled
 ## Author: Emyrk
-## SavedVariablesPerCharacter: ChronicleCompanionDB
+## SavedVariables: ChronicleCompanionDB
 ## Dependencies: SuperWowCombatLogger
 
 util.lua

@@ -31,6 +31,9 @@ function Chronicle:InitializeConfig()
     end
 end
 
+--- Get a setting value from saved variables, or return the default.
+---@param key string Setting key (e.g., "debugMode", "combatLogRangeDefault")
+---@return any value The setting value (type depends on the setting)
 function Chronicle:GetSetting(key)
     if ChronicleCompanionDB and ChronicleCompanionDB[key] ~= nil then
         return ChronicleCompanionDB[key]
@@ -38,6 +41,9 @@ function Chronicle:GetSetting(key)
     return DEFAULTS[key]
 end
 
+--- Set a setting value in saved variables.
+---@param key string Setting key (e.g., "debugMode", "combatLogRangeDefault")
+---@param value any The value to set (boolean, number, or string depending on setting)
 function Chronicle:SetSetting(key, value)
     if not ChronicleCompanionDB then
         ChronicleCompanionDB = {}
@@ -49,6 +55,8 @@ end
 -- Debug Output
 -- =============================================================================
 
+--- Print a debug message to the configured chat window (only if debug mode is enabled).
+---@param msg string|number The message to print
 function Chronicle:DebugPrint(msg)
     if not self:GetSetting("debugMode") then
         return

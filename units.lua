@@ -161,6 +161,7 @@ function ChronicleUnits:UpdateUnit(id, force)
 		UnitHealthMax(unitData.id)
 	)
 	CombatLogAdd(logLine, 1)
+	Chronicle:DebugPrint(logLine)
 	ChronicleUnits:CleanupOldUnits()
 end
 

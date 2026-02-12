@@ -172,7 +172,11 @@ function Chronicle:CreateOptionsPanel()
     getglobal(turtlogsCheck:GetName() .. "Text"):SetText("Turtlogs Compatibility")
     turtlogsCheck:SetChecked(self:GetSetting("turtlogsCompatibility"))
     turtlogsCheck:SetScript("OnClick", function()
-        Chronicle:SetSetting("turtlogsCompatibility", this:GetChecked() == 1)
+        local enabled = this:GetChecked() == 1
+        Chronicle:SetSetting("turtlogsCompatibility", enabled)
+        if RPLL then
+            RPLL.turtlogsCompat = enabled
+        end
     end)
     
     local turtlogsDesc = panel:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")

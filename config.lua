@@ -181,7 +181,7 @@ function Chronicle:CreateOptionsPanel()
     
     local turtlogsDesc = panel:CreateFontString(nil, "ARTWORK", "GameFontHighlightSmall")
     turtlogsDesc:SetPoint("TOPLEFT", turtlogsCheck, "BOTTOMLEFT", 26, 2)
-    turtlogsDesc:SetText("Keep enabled for Turtlogs upload support.")
+    turtlogsDesc:SetText("Disable to reduce size of combat log files.")
     turtlogsDesc:SetTextColor(0.5, 0.5, 0.5)
     
     yOffset = yOffset - 45

@@ -912,16 +912,25 @@ function Chronicle:LoadEmbeddedSuperWoWLogger()
     end)
 
     RPLL.PLAYER_REGEN_DISABLED = function()
+      if(LoggingCombat() ~= 1) then
+        return
+      end
       CombatLogAdd("PLAYER_REGEN_DISABLED")
       logPlayersInCombat()
     end
 
     RPLL.PLAYER_REGEN_ENABLED = function()
+      if(LoggingCombat() ~= 1) then
+        return
+      end
       CombatLogAdd("PLAYER_REGEN_ENABLED")
       logPlayersInCombat()
     end
 
     RPLL.UNIT_DIED = function(guid)
+      if(LoggingCombat() ~= 1) then
+        return
+      end
       local name = UnitName(guid) or "Unknown"
       CombatLogAdd("UNIT_DIED:" .. name .. ":" .. guid)
     end
@@ -1031,6 +1040,9 @@ function Chronicle:LoadEmbeddedSuperWoWLogger()
     end
 
     RPLL.UNIT_CASTEVENT = function(caster, target, event, spellID, castDuration)
+      if(LoggingCombat() ~= 1) then
+        return
+      end
       if RPLL.turtlogsCompat then
         LogCastEventV1(caster, target, event, spellID, castDuration) -- for backwards compatibility
       end

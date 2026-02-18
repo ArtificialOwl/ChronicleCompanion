@@ -380,6 +380,10 @@ end
 
 -- Unsure if this is useful, but want to try it.
 function Chronicle:LogPlayerPosition()
+	if(LoggingCombat() ~= 1) then
+		-- Ignore if not logging
+		return
+	end
 	local x, y = GetPlayerMapPosition("player")
 	if x == nil or y == nil then
 		-- These should never be nil, but just in case

@@ -7,6 +7,9 @@
 ## SavedVariables: ChronicleCompanionDB
 ## OptionalDeps: SuperWowCombatLogger
 
+
+advancedlogging\core.lua
+
 util.lua
 units.lua
 core.lua

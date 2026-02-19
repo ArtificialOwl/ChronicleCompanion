@@ -56,7 +56,14 @@ function Chronicle:HandleSlashCommand(msg)
 		
 	elseif cmd == "config" or cmd == "options" then
 		self:OpenOptionsPanel()
-		
+	elseif cmd == "log" then
+		if(ChronicleLog:IsEnabled()) then
+			local linesWritten = ChronicleLog:Disable()
+			self:Print("Combat logging disabled. Wrote " .. linesWritten .. " events to file.")
+		else
+			ChronicleLog:Enable()
+			self:Print("Combat logging enabled. Events will be written to file when disabled.")
+		end
 	else
 		self:Print("Unknown command. Type '/chronicle help' for available commands.")
 	end
@@ -64,6 +71,7 @@ end
 
 function Chronicle:ShowHelp()
 	self:Print("=== Chronicle Commands ===")
+	self:Print("/chronicle log - Toggle advanced combat logging")
 	self:Print("/chronicle stats - Show database statistics")
 	self:Print("/chronicle cleanup [seconds] - Remove units not seen in X seconds (default 300)")
 	self:Print("/chronicle clear - Clear entire database")

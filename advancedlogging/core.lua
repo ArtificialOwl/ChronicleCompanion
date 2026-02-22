@@ -195,6 +195,9 @@ function ChronicleLog:GenerateHeader()
     local localTime = date("%d.%m.%y %H:%M:%S", ts)
     local utcTime = date("!%d.%m.%y %H:%M:%S", ts)
     
+    -- Combat log range
+    local combatLogRange = GetCVar("CombatLogRangeCreature") or ""
+    
     local parts = {
         "HEADER",
         playerGuid,
@@ -208,7 +211,8 @@ function ChronicleLog:GenerateHeader()
         wowBuild,
         wowBuildDate,
         localTime,
-        utcTime
+        utcTime,
+        combatLogRange
     }
     
     return table.concat(parts, LOG_SEP)
@@ -217,7 +221,8 @@ end
 --- Writes the header line to the buffer.
 --- Call this on zone changes to record session metadata.
 function ChronicleLog:WriteHeader()
-    local header = self:GenerateHeader()
+    local timestamp = math.floor((GetTime() + self.timeOffset) * 1000)
+    local header = timestamp .. LOG_SEP .. self:GenerateHeader()
     self.bufferSize = self.bufferSize + 1
     self.buffer[self.bufferSize] = header
 end
@@ -262,6 +267,9 @@ function ChronicleLog:FlushToFile()
     if self.bufferSize == 0 then
         return 0
     end
+    
+    -- Always write header first
+    self:WriteHeader()
     
     -- Generate filename based on character name
     local playerName = UnitName("player") or "Unknown"

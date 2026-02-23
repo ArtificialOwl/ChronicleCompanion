@@ -458,7 +458,7 @@ function ChronicleLog:CreateOptionsPanel()
     flushButton:SetWidth(105)
     flushButton:SetHeight(22)
     flushButton:SetPoint("TOPLEFT", rightCol, yRight)
-    flushButton:SetText("Flush to Disk")
+    flushButton:SetText("Save")
     flushButton:SetScript("OnClick", function()
         local lines = ChronicleLog:FlushToFile()
         Chronicle:Print("Flushed " .. lines .. " lines to disk.")
@@ -469,7 +469,7 @@ function ChronicleLog:CreateOptionsPanel()
     clearButton:SetWidth(105)
     clearButton:SetHeight(22)
     clearButton:SetPoint("LEFT", flushButton, "RIGHT", 5, 0)
-    clearButton:SetText("Clear Disk Logs")
+    clearButton:SetText("Delete Logs")
     clearButton:SetScript("OnClick", function()
         StaticPopup_Show("CHRONICLELOG_CLEAR_CONFIRM")
     end)
@@ -479,7 +479,7 @@ function ChronicleLog:CreateOptionsPanel()
     -- Row 2: Suffix input + Move Logs
     local moveLabel = panel:CreateFontString(nil, "ARTWORK", "GameFontNormal")
     moveLabel:SetPoint("TOPLEFT", rightCol, yRight + 3)
-    moveLabel:SetText("Suffix:")
+    moveLabel:SetText("Name:")
     
     local moveEditBox = CreateFrame("EditBox", "ChronicleLogMoveEditBox", panel, "InputBoxTemplate")
     moveEditBox:SetWidth(80)
@@ -492,7 +492,7 @@ function ChronicleLog:CreateOptionsPanel()
     moveButton:SetWidth(80)
     moveButton:SetHeight(22)
     moveButton:SetPoint("LEFT", moveEditBox, "RIGHT", 5, 0)
-    moveButton:SetText("Move Logs")
+    moveButton:SetText("Backup")
     moveButton:Disable()
     
     moveEditBox:SetScript("OnTextChanged", function()
@@ -551,13 +551,14 @@ end
 
 -- Clear confirmation popup
 StaticPopupDialogs["CHRONICLELOG_CLEAR_CONFIRM"] = {
-    text = "Are you sure you want to clear all logs on disk?",
-    button1 = "Yes, Clear",
+    text = "Are you sure you want to delete all logs (disk and memory)?",
+    button1 = "Yes, Delete",
     button2 = "Cancel",
     OnAccept = function()
         local filename = "Chronicle_" .. (UnitName("player") or "Unknown")
         ExportFile(filename, "")
-        Chronicle:Print("Cleared disk logs: " .. filename)
+        ChronicleLog:ClearBuffer()
+        Chronicle:Print("Deleted all logs: " .. filename)
         ChronicleLog:RefreshOptionsPanel()
     end,
     timeout = 0,

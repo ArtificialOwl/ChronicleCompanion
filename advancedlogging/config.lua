@@ -2,6 +2,13 @@
 -- ChronicleLog Configuration - Settings and Options Panel
 -- =============================================================================
 
+-- Minimum required versions for dependencies (empty string = no minimum)
+local MIN_VERSIONS = {
+    superwow = "1.5",         
+    unitxp3 = "1771449714",          
+    nampower = "2.38.1",       
+}
+
 -- Default settings
 local DEFAULTS = {
     autoEnableInRaid = true,
@@ -46,8 +53,32 @@ end
 -- Version Checking
 -- =============================================================================
 
+-- Compare two version strings (supports numeric and dotted versions like "2.38.1")
+-- Returns true if v1 >= v2
+local function CompareVersions(v1, v2)
+    if not v1 or not v2 or v2 == "" then return true end
+    
+    -- Try numeric comparison first (for timestamps like UnitXP3)
+    local n1, n2 = tonumber(v1), tonumber(v2)
+    if n1 and n2 then return n1 >= n2 end
+    
+    -- Dotted version comparison (e.g. "2.38.1")
+    local parts1, parts2 = {}, {}
+    for p in string.gfind(v1, "([^.]+)") do table.insert(parts1, tonumber(p) or 0) end
+    for p in string.gfind(v2, "([^.]+)") do table.insert(parts2, tonumber(p) or 0) end
+    
+    for i = 1, math.max(table.getn(parts1), table.getn(parts2)) do
+        local p1, p2 = parts1[i] or 0, parts2[i] or 0
+        if p1 > p2 then return true end
+        if p1 < p2 then return false end
+    end
+    return true
+end
+
 function ChronicleLog:CheckVersion(name)
     local version = nil
+    local minVersion = MIN_VERSIONS[name] or ""
+    
     if name == "addon" then
         version = GetAddOnMetadata("ChronicleCompanion", "Version")
     elseif name == "superwow" then
@@ -61,11 +92,17 @@ function ChronicleLog:CheckVersion(name)
             if major then version = major .. "." .. (minor or 0) .. "." .. (patch or 0) end
         end
     end
-    if version then
-        return tostring(version), "00ff00"
-    else
+    
+    if not version then
         return "Not Found", "ff0000"
     end
+    
+    -- Check against minimum version
+    if minVersion ~= "" and not CompareVersions(version, minVersion) then
+        return tostring(version), "ff0000"  -- Below minimum: red
+    end
+    
+    return tostring(version), "00ff00"  -- OK: green
 end
 
 -- =============================================================================

@@ -403,7 +403,7 @@ function ChronicleLog:ZONE_CHANGED_NEW_AREA()
     end
     
     -- Log zone info and purge units if enabled
-    self:WriteZoneInfo()
+    self:WriteZoneInfo(true)
     if self:IsEnabled() then
         self:PurgeUnits()
     end

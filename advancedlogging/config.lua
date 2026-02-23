@@ -16,7 +16,7 @@ local DEFAULTS = {
     showLogReminder = true,
     rangeDefault = 40,
     rangeDungeon = 100,
-    rangeRaid = 150,
+    rangeRaid = 200,
     debugMode = false,
     debugChatFrame = 1,
     enabled = false,
@@ -104,6 +104,35 @@ function ChronicleLog:CheckVersion(name)
     
     return tostring(version), "00ff00"  -- OK: green
 end
+
+function ChronicleLog:CheckDependencies()
+    local problems = {}
+    
+    local deps = { "superwow", "unitxp3", "nampower" }
+    local names = { superwow = "SuperWoW", unitxp3 = "UnitXP3", nampower = "Nampower" }
+    
+    for _, dep in ipairs(deps) do
+        local version, color = self:CheckVersion(dep)
+        if color == "ff0000" then  -- red = problem
+            local minVer = MIN_VERSIONS[dep] or ""
+            if version == "Not Found" then
+                table.insert(problems, names[dep] .. ": Not Found")
+            else
+                table.insert(problems, names[dep] .. ": " .. version .. " (need " .. minVer .. ")")
+            end
+        end
+    end
+    
+    return problems
+end
+
+StaticPopupDialogs["CHRONICLELOG_DEPENDENCY_WARNING"] = {
+    text = "ChronicleLog cannot function correctly.\n\nMissing or outdated dependencies:\n%s\n\nPlease update these dependencies or remove ChronicleCompanion addon.",
+    button1 = "OK",
+    timeout = 0,
+    whileDead = true,
+    hideOnEscape = true,
+}
 
 -- =============================================================================
 -- Options Panel UI
@@ -315,6 +344,7 @@ function ChronicleLog:CreateOptionsPanel()
         local value = math.floor(this:GetValue())
         ChronicleLog:SetSetting("rangeDefault", value)
         getglobal(this:GetName() .. "Text"):SetText("Default: " .. value)
+        ChronicleLog:RefreshOptionsPanel()
     end)
     panel.defaultRangeSlider = defaultRangeSlider
     
@@ -332,6 +362,7 @@ function ChronicleLog:CreateOptionsPanel()
         local value = math.floor(this:GetValue())
         ChronicleLog:SetSetting("rangeDungeon", value)
         getglobal(this:GetName() .. "Text"):SetText("Dungeon: " .. value)
+        ChronicleLog:RefreshOptionsPanel()
     end)
     panel.dungeonRangeSlider = dungeonRangeSlider
     
@@ -349,6 +380,7 @@ function ChronicleLog:CreateOptionsPanel()
         local value = math.floor(this:GetValue())
         ChronicleLog:SetSetting("rangeRaid", value)
         getglobal(this:GetName() .. "Text"):SetText("Raid: " .. value)
+        ChronicleLog:RefreshOptionsPanel()
     end)
     panel.raidRangeSlider = raidRangeSlider
     

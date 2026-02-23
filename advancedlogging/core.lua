@@ -104,6 +104,12 @@ function ChronicleLog:Init()
     if self:GetSetting("enabled") then
         self:Enable()
     end
+    
+    -- Check dependencies and warn if any issues
+    local problems = self:CheckDependencies()
+    if table.getn(problems) > 0 then
+        StaticPopup_Show("CHRONICLELOG_DEPENDENCY_WARNING", table.concat(problems, "\n"))
+    end
 end
 
 --- Enables combat logging and registers all events.

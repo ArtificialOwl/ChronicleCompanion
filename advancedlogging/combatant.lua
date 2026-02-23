@@ -135,7 +135,7 @@ function ChronicleLog:GetCombatantInfo(unit)
                 talents[t] = talents[t] .. (currRank or 0)
             end
         end
-        local talentStr = strjoin("}", talents[1], talents[2], talents[3])
+        local talentStr = cstrjoin("}", talents[1], talents[2], talents[3])
         -- Only include if meaningful (more than just separators)
         if strlen(talentStr) > 10 then
             info.talents = talentStr

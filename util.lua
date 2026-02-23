@@ -1,5 +1,12 @@
 -- Fix the global gmatch function for older Lua versions
 
+cstrjoin = string.join or function(delim, ...)
+    if type(arg) == 'table' then
+    return table.concat(arg, delim)
+    else
+    return delim
+    end
+end
 
 cgmatch = string.gmatch or string.gfind
 cunpack = unpack or table.unpack

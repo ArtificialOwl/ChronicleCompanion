@@ -130,7 +130,7 @@ function ChronicleLog:CheckUnit(guid)
     end
     
     -- Gather unit info
-    local isPlayer = UnitIsUnit(guid, "player") and 1 or 0
+    local isMe = UnitIsUnit(guid, "player") and 1 or 0
     local canCooperate = UnitCanCooperate("player", guid) and 1 or 0
     local level = UnitLevel(guid) or 0
     local maxHealth = UnitHealthMax(guid) or 0
@@ -144,16 +144,16 @@ function ChronicleLog:CheckUnit(guid)
     end
     
     -- Get challenges (only meaningful for player)
-    local challenges = isPlayer == 1 and self.units.challenges or "na"
+    local challenges = isMe == 1 and self.units.challenges or "na"
     
     -- Mark as logged
     self.units.logged[guid] = now
     
     -- Write UNIT_INFO event
-    self:Write("UNIT_INFO", guid, isPlayer, name, canCooperate, owner, buffs, level, challenges, maxHealth)
+    self:Write("UNIT_INFO", guid, isMe, name, canCooperate, owner, buffs, level, challenges, maxHealth)
     
     -- Write COMBATANT_INFO for players (gear, talents, guild)
-    if isPlayer == 1 then
+    if UnitIsPlayer(guid) == 1 then
         self:WriteCombatantInfo(guid)
     end
 end

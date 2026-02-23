@@ -227,8 +227,7 @@ end
 --- Writes the header line to the buffer.
 --- Call this on zone changes to record session metadata.
 function ChronicleLog:WriteHeader()
-    local timestamp = math.floor((GetTime() + self.timeOffset) * 1000)
-    local header = timestamp .. LOG_SEP .. self:GenerateHeader()
+    local header = "0" .. LOG_SEP .. self:GenerateHeader()
     self.bufferSize = self.bufferSize + 1
     self.buffer[self.bufferSize] = header
 end
@@ -274,8 +273,8 @@ function ChronicleLog:FlushToFile()
         return 0
     end
     
-    -- Always write header first
-    self:WriteHeader()
+    -- Generate header line to prepend (timestamp 0 since it covers the whole flush)
+    local header = "0" .. LOG_SEP .. self:GenerateHeader()
     
     -- Generate filename based on character name
     local playerName = UnitName("player") or "Unknown"
@@ -287,8 +286,9 @@ function ChronicleLog:FlushToFile()
         existingContent = ImportFile(filename) or ""
     end
     
-    -- Join new lines with newlines
-    local newContent = table.concat(self.buffer, "\n")
+    -- Join buffer lines with newlines, prepend header
+    local bufferContent = table.concat(self.buffer, "\n")
+    local newContent = header .. "\n" .. bufferContent
     
     -- Append new content (add newline separator if existing content exists)
     local finalContent
@@ -402,20 +402,37 @@ function ChronicleLog:ZONE_CHANGED_NEW_AREA()
         end
     end
     
-    -- Only log zone info if enabled
+    -- Log zone info and purge units if enabled
+    self:WriteZoneInfo()
     if self:IsEnabled() then
-        -- Log header with player/addon/version info
-        self:WriteHeader()
-        
-        local inInstanceNum = isInInstance and 1 or 0
-        instanceType = instanceType or "none"
-        local isGhost = UnitIsGhost("player") and 1 or 0
-        
-        self:Write("ZONE_INFO", zoneName, instanceId, inInstanceNum, instanceType, isGhost)
-        
-        -- Purge units database (all GUIDs need re-logging in new zone)
         self:PurgeUnits()
     end
+end
+
+--- Writes zone info to the log buffer.
+--- Call this after clearing logs to provide context for new entries.
+function ChronicleLog:WriteZoneInfo(force)
+    if not force and not self:IsEnabled() then return end
+    
+    local zoneName = GetRealZoneText() or ""
+    local zoneLower = strlower(zoneName)
+    local instanceId = 0
+    
+    for i = 1, GetNumSavedInstances() do
+        local instanceName, savedId = GetSavedInstanceInfo(i)
+        if zoneLower == strlower(instanceName) then
+            instanceId = savedId
+            break
+        end
+    end
+    
+    local inInstance, instanceType = IsInInstance()
+    local inInstanceNum = inInstance and 1 or 0
+    instanceType = instanceType or "none"
+    local isGhost = UnitIsGhost("player") and 1 or 0
+    
+    self:WriteHeader()
+    self:Write("ZONE_INFO", zoneName, instanceId, inInstanceNum, instanceType, isGhost)
 end
 
 --- Handles UNIT_CASTEVENT events.

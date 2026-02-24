@@ -78,6 +78,15 @@ function Chronicle:HandleSlashCommand(msg)
 		self:Print("MS Timestamp: " .. msTimestamp)
 		local ms = math.mod(msTimestamp, 1000)
 		self:Print("Verify: " .. date("%d.%m.%y %H:%M:%S", math.floor(msTimestamp / 1000)) .. string.format(".%03d", ms))
+	elseif cmd == "save" then
+		local lines = ChronicleLog:FlushToFile()
+		if lines > 0 then
+			self:Print("Saved " .. lines .. " lines to disk.")
+		else
+			self:Print("No lines to save.")
+		end
+	elseif cmd == "delete" then
+		StaticPopup_Show("CHRONICLELOG_CLEAR_CONFIRM")
 	else
 		self:Print("Unknown command. Type '/chronicle help' for available commands.")
 	end
@@ -88,6 +97,8 @@ function Chronicle:ShowHelp()
 	self:Print("/chronicle log - Toggle advanced combat logging")
 	self:Print("/chronicle advlog - Open advanced logging options")
 	self:Print("/chronicle time - Debug timestamp calculation")
+	self:Print("/chronicle save - Save logs to disk")
+	self:Print("/chronicle delete - Delete all logs (disk and memory)")
 	self:Print("/chronicle stats - Show database statistics")
 	self:Print("/chronicle cleanup [seconds] - Remove units not seen in X seconds (default 300)")
 	self:Print("/chronicle clear - Clear entire database")

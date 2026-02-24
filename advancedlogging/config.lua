@@ -558,6 +558,7 @@ StaticPopupDialogs["CHRONICLELOG_CLEAR_CONFIRM"] = {
         local filename = "Chronicle_" .. (UnitName("player") or "Unknown")
         ExportFile(filename, "")
         ChronicleLog:ClearBuffer()
+        ChronicleLog:PurgeUnits()
         -- Write fresh zone info to start the new log (bypass enabled check)
         ChronicleLog:WriteZoneInfo(true)
         Chronicle:Print("Deleted all logs: " .. filename)

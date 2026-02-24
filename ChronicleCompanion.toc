@@ -8,12 +8,13 @@
 ## OptionalDeps: SuperWowCombatLogger
 
 
+util.lua
+
 advancedlogging\core.lua
 advancedlogging\units.lua
 advancedlogging\combatant.lua
 advancedlogging\config.lua
 
-util.lua
 units.lua
 core.lua
 config.lua

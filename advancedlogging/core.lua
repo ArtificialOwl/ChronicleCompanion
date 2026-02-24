@@ -523,8 +523,9 @@ end
 ---@param critical number 1 if critical heal, 0 otherwise
 ---@param periodic number 1 if from periodic aura (HoT tick), 0 otherwise
 function ChronicleLog:SPELL_HEAL_BY_SELF(targetGuid, casterGuid, spellId, amount, critical, periodic)
-    -- Caught by the other
-    -- self:Write("HEAL", targetGuid, casterGuid, spellId, amount, critical, periodic)
+    self:CheckUnit(targetGuid)
+    self:CheckUnit(casterGuid)
+    self:Write("HEAL", targetGuid, casterGuid, spellId, amount, critical, periodic)
 end
 
 --- Handles SPELL_HEAL_BY_OTHER events.
@@ -557,9 +558,10 @@ end
 ---@param critical number 1 if critical heal, 0 otherwise
 ---@param periodic number 1 if from periodic aura (HoT tick), 0 otherwise
 function ChronicleLog:SPELL_HEAL_ON_SELF(targetGuid, casterGuid, spellId, amount, critical, periodic)
-    self:CheckUnit(targetGuid)
-    self:CheckUnit(casterGuid)
-    self:Write("HEAL", targetGuid, casterGuid, spellId, amount, critical, periodic)
+    -- self:CheckUnit(targetGuid)
+    -- self:CheckUnit(casterGuid)
+    -- Caught by the other
+    -- self:Write("HEAL", targetGuid, casterGuid, spellId, amount, critical, periodic)
 end
 
 --- Handles SPELL_ENERGIZE_BY_SELF events.
@@ -576,8 +578,9 @@ end
 ---@param amount number Amount of power restored
 ---@param periodic number 1 if from periodic aura, 0 otherwise
 function ChronicleLog:SPELL_ENERGIZE_BY_SELF(targetGuid, casterGuid, spellId, powerType, amount, periodic)
-    -- Handled by others
-    -- self:Write("ENERGIZE", targetGuid, casterGuid, spellId, powerType, amount, periodic)
+    self:CheckUnit(targetGuid)
+    self:CheckUnit(casterGuid)
+    self:Write("ENERGIZE", targetGuid, casterGuid, spellId, powerType, amount, periodic)
 end
 
 --- Handles SPELL_ENERGIZE_BY_OTHER events.
@@ -612,9 +615,9 @@ end
 ---@param amount number Amount of power restored
 ---@param periodic number 1 if from periodic aura, 0 otherwise
 function ChronicleLog:SPELL_ENERGIZE_ON_SELF(targetGuid, casterGuid, spellId, powerType, amount, periodic)
-    self:CheckUnit(targetGuid)
-    self:CheckUnit(casterGuid)
-    self:Write("ENERGIZE", targetGuid, casterGuid, spellId, powerType, amount, periodic)
+    -- self:CheckUnit(targetGuid)
+    -- self:CheckUnit(casterGuid)
+    -- self:Write("ENERGIZE", targetGuid, casterGuid, spellId, powerType, amount, periodic)
 end
 
 --- Handles SPELL_MISS_SELF events.
@@ -701,7 +704,7 @@ end
 ---@param expirationTimeMs number Calculated expiration time (GetWowTimeMs() + durationMs), or 0 if no duration
 ---@param spellId number Spell ID of aura in slot (0 for new auras, >0 for refreshed auras)
 function ChronicleLog:BUFF_UPDATE_DURATION_SELF(auraSlot, durationMs, expirationTimeMs, spellId)
-    self:Write("BUFF_DURATION", auraSlot, durationMs, expirationTimeMs, spellId)
+    -- self:Write("BUFF_DURATION", auraSlot, durationMs, expirationTimeMs, spellId)
 end
 
 --- Handles DEBUFF_UPDATE_DURATION_SELF events.
@@ -715,7 +718,7 @@ end
 ---@param expirationTimeMs number Calculated expiration time (GetWowTimeMs() + durationMs), or 0 if no duration
 ---@param spellId number Spell ID of aura in slot (0 for new auras, >0 for refreshed auras)
 function ChronicleLog:DEBUFF_UPDATE_DURATION_SELF(auraSlot, durationMs, expirationTimeMs, spellId)
-    self:Write("DEBUFF_DURATION", auraSlot, durationMs, expirationTimeMs, spellId)
+    -- self:Write("DEBUFF_DURATION", auraSlot, durationMs, expirationTimeMs, spellId)
 end
 
 --- Handles BUFF_ADDED_SELF events.

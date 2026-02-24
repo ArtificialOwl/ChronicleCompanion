@@ -54,7 +54,7 @@ function Chronicle:HandleSlashCommand(msg)
 	elseif cmd == "version" or cmd == "ver" then
 		self:Print("Chronicle version " .. self.version)
 		
-	elseif cmd == "config" or cmd == "options" then
+	elseif cmd == "config-v1" or cmd == "options-v1" then
 		self:OpenOptionsPanel()
 	elseif cmd == "log" then
 		if(ChronicleLog:IsEnabled()) then
@@ -64,7 +64,7 @@ function Chronicle:HandleSlashCommand(msg)
 			ChronicleLog:Enable()
 			self:Print("Combat logging enabled. Events will be written to file when disabled.")
 		end
-	elseif cmd == "advlog" or cmd == "advancedlog" then
+	elseif cmd =="config" or cmd == "advlog" or cmd == "advancedlog" then
 		ChronicleLog:OpenOptionsPanel()
 	elseif cmd == "time" or cmd == "timestamp" then
 		local getTime = GetTime()
@@ -95,7 +95,6 @@ end
 function Chronicle:ShowHelp()
 	self:Print("=== Chronicle Commands ===")
 	self:Print("/chronicle log - Toggle advanced combat logging")
-	self:Print("/chronicle advlog - Open advanced logging options")
 	self:Print("/chronicle time - Debug timestamp calculation")
 	self:Print("/chronicle save - Save logs to disk")
 	self:Print("/chronicle delete - Delete all logs (disk and memory)")

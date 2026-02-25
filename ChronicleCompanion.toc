@@ -15,10 +15,7 @@ advancedlogging\units.lua
 advancedlogging\combatant.lua
 advancedlogging\config.lua
 
-units.lua
 core.lua
-config.lua
-superwow_embedded.lua
 debug.lua
 slash.lua
 init.lua

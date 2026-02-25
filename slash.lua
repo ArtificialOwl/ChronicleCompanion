@@ -38,24 +38,9 @@ function Chronicle:HandleSlashCommand(msg)
 		
 	if cmd == "help" then
 		self:ShowHelp()
-		
-	elseif cmd == "stats" then
-		self:ShowStats()
-		
-	elseif cmd == "cleanup" then
-		local timeout = tonumber(arg) or 300
-		local removed = ChronicleUnits:CleanupOldUnits(timeout)
-		self:Print("Cleaned up " .. removed .. " units not seen in " .. self:FormatTime(timeout))
-		
-	elseif cmd == "clear" then
-		self:Reset()
-		self:Print("Database cleared!")
-		
 	elseif cmd == "version" or cmd == "ver" then
 		self:Print("Chronicle version " .. self.version)
 		
-	elseif cmd == "config-v1" or cmd == "options-v1" then
-		self:OpenOptionsPanel()
 	elseif cmd == "log" then
 		if(ChronicleLog:IsEnabled()) then
 			local linesWritten = ChronicleLog:Disable()
@@ -95,12 +80,8 @@ end
 function Chronicle:ShowHelp()
 	self:Print("=== Chronicle Commands ===")
 	self:Print("/chronicle log - Toggle advanced combat logging")
-	self:Print("/chronicle time - Debug timestamp calculation")
 	self:Print("/chronicle save - Save logs to disk")
 	self:Print("/chronicle delete - Delete all logs (disk and memory)")
-	self:Print("/chronicle stats - Show database statistics")
-	self:Print("/chronicle cleanup [seconds] - Remove units not seen in X seconds (default 300)")
-	self:Print("/chronicle clear - Clear entire database")
 	self:Print("/chronicle version - Show addon version")
 	self:Print("/chronicle config - Open options panel")
 	self:Print("/chronicle help - Show this help")

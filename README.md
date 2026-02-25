@@ -1,6 +1,6 @@
 # ChronicleCompanion
 
-A World of Warcraft addon that enhances combat logging with additional unit metadata for use with [Chronicle](https://github.com/Emyrk/chronicle).
+A World of Warcraft addon that replaces combat logging with enriched unit metadata for use with [Chronicle](https://github.com/Emyrk/chronicle).
 
 Upload your enriched combat logs at [chronicleclassic.com](https://chronicleclassic.com).
 
@@ -11,19 +11,39 @@ Upload your enriched combat logs at [chronicleclassic.com](https://chronicleclas
 
 ## Requirements
 
-- [SuperWoW](https://github.com/balakethelock/SuperWoW) — Required for extended API functions
+- [SuperWoW](https://github.com/balakethelock/SuperWoW)
+- [Nampower](https://github.com/pepopo978/nampower)
+- [UnitXP3](https://github.com/allfoxwy/UnitXP_SP3)
+- ChronicleCompanion Addon
+
+You can still use [SuperWoWCombatLogger](https://github.com/pepopo978/SuperWowCombatLogger) for Turtlogs compatibility.
 
 ## Installation
 
 1. Download the latest release
 2. Extract to your `Interface/AddOns/` folder
 3. Ensure the folder is named `ChronicleCompanion`
-4. **If you have SuperWowCombatLogger installed, disable or remove it** — ChronicleCompanion now includes this functionality built-in
-5. Restart WoW
+4. Restart WoW
 
 ## Usage
 
-ChronicleCompanion works automatically when combat logging is enabled. It intercepts combat log events and enriches them with additional unit metadata.
+### On Raid Night
+
+**Optional:** Configure the addon with `/chronicle config`
+
+#### 1. Prepare the logs
+
+Type `/chron delete` to delete any existing logs.
+
+#### 2. Do your raid
+
+#### 3. Save your logs
+
+Type `/chron save` to save the logs to disk.
+
+#### 4. Upload the file
+
+Upload `<TurtleWoWFolder>/Imports/Chronicle_<character_name>.txt` to [chronicleclassic.com](https://chronicleclassic.com).
 
 ### Slash Commands
 
@@ -31,20 +51,14 @@ ChronicleCompanion works automatically when combat logging is enabled. It interc
 | ------------------- | --------------------------- |
 | `/chronicle help`   | Show all available commands |
 | `/chronicle config` | Open the options panel      |
+| `/chron delete`     | Delete existing logs        |
+| `/chron save`       | Save logs to disk           |
 
-You can also use `/chron` as a shorthand.
-
-## Localization
-
-Currently supports English (`enUS`) for challenge mode detection. Contributions for other locales are welcome! See `units.lua` for the `CHALLENGE_SPELLS` table.
+You can also use `/chron` as a shorthand for `/chronicle`.
 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-## Acknowledgments
-
-This addon includes an embedded version of [SuperWowCombatLogger](https://github.com/pepopo978/SuperWowCombatLogger) by **Shino/pepopo978**. Their work on combat log enhancements made this addon possible. Thank you!
 
 ## License
 

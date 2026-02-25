@@ -1,17 +1,21 @@
 ## Interface: 11200
 ## Title: ChronicleCompanion
 ## Notes: Use with the website Chronicle
-## Version: 0.5
+## Version: 0.6
 ## DefaultState: enabled
 ## Author: Emyrk
 ## SavedVariables: ChronicleCompanionDB
 ## OptionalDeps: SuperWowCombatLogger
 
+
 util.lua
-units.lua
+
+advancedlogging\core.lua
+advancedlogging\units.lua
+advancedlogging\combatant.lua
+advancedlogging\config.lua
+
 core.lua
-config.lua
-superwow_embedded.lua
 debug.lua
 slash.lua
 init.lua

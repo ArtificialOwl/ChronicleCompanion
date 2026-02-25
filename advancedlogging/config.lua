@@ -5,7 +5,7 @@
 -- Minimum required versions for dependencies (empty string = no minimum)
 local MIN_VERSIONS = {
     superwow = "1.5",         
-    unitxp3 = "1771449714",          
+    unitxp3 = "1771083771",          
     nampower = "2.38.1",       
 }
 

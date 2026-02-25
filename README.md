@@ -12,8 +12,8 @@ Upload your enriched combat logs at [chronicleclassic.com](https://chronicleclas
 ## Requirements
 
 - [SuperWoW](https://github.com/balakethelock/SuperWoW)
-- [Nampower](https://github.com/pepopo978/nampower)
-- [UnitXP3](https://github.com/allfoxwy/UnitXP_SP3)
+- [Nampower](https://gitea.com/avitasia/nampower)
+- [UnitXP3](https://codeberg.org/konaka/UnitXP_SP3)
 - ChronicleCompanion Addon
 
 You can still use [SuperWoWCombatLogger](https://github.com/pepopo978/SuperWowCombatLogger) for Turtlogs compatibility.
